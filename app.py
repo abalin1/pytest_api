@@ -37,12 +37,15 @@ users = {
     'sue': 'mcdowel'
 }
 
+
 @auth.verify_password
 def verify_password(username, password):
     if username in users:
         if users[username] == password:
             return username, password
     return False
+
+
 @auth.error_handler
 def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
@@ -57,6 +60,7 @@ def not_found(error):
 @auth.login_required
 def index():
     return 'Hello, dolly'
+
 
 @app.route('/tasks', methods=['GET'])
 @auth.login_required
